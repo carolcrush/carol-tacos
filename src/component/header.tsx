@@ -1,4 +1,5 @@
 import { Title, Text, Container, Button, Overlay, createStyles, rem } from '@mantine/core';
+import Router from 'next/router'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -64,6 +65,10 @@ const useStyles = createStyles((theme) => ({
 export function Header() {
   const { classes } = useStyles();
 
+  const handler = (path: string) => {
+    Router.push(path)
+  }
+
   return (
     <div className={classes.wrapper}>
       <Overlay color="#000" opacity={0.65} zIndex={1} />
@@ -79,7 +84,7 @@ export function Header() {
           </Text>
         </Container>
         <div className={classes.button}>
-          <Button radius="xl" size="lg">
+          <Button radius="xl" size="lg" onClick={()=>handler('/order')}>
             ORDER NOW
           </Button>
         </div>
