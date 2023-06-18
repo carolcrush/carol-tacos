@@ -34,6 +34,32 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+type CardProps = {
+  itemList: {
+    title: string;
+    price: string;
+    image: string;
+  }[]
+}
+function Cards({ itemList }: CardProps){
+  const { classes } = useStyles();
+  return (
+    <>
+      {itemList.map((item) => (
+        <Card key={item.title} p="md" radius="md" component="a" href="#" className={classes.card}>
+            <Image src={item.image} />
+          <Text className={classes.title} mt={5}>
+            {item.title}
+          </Text>
+          <Text className={classes.price} mt={3}>
+            {item.price}
+          </Text>
+        </Card>
+      ))}
+    </>
+  )
+}
+
 type Props = {
   tacosRef: RefObject<HTMLDivElement>
   saladRef: RefObject<HTMLDivElement>
@@ -43,54 +69,6 @@ type Props = {
 export function Items({ tacosRef,saladRef,coffeeRef,juiceRef, }: Props) {
   const { classes } = useStyles();
 
-  const tacosCards = tacosList.map((tacos) => (
-    <Card key={tacos.title} p="md" radius="md" component="a" href="#" className={classes.card}>
-        <Image src={tacos.image} />
-      <Text className={classes.title} mt={5}>
-        {tacos.title}
-      </Text>
-      <Text className={classes.price} mt={3}>
-        {tacos.price}
-      </Text>
-    </Card>
-  ));
-
-  const saladCards = saladList.map((salad) => (
-    <Card key={salad.title} p="md" radius="md" component="a" href="#" className={classes.card}>
-        <Image src={salad.image} />
-      <Text className={classes.title} mt={5}>
-        {salad.title}
-      </Text>
-      <Text className={classes.price} mt={3}>
-        {salad.price}
-      </Text>
-    </Card>
-  ));
-
-  const coffeeCards = coffeeList.map((coffee) => (
-    <Card key={coffee.title} p="md" radius="md" component="a" href="#" className={classes.card}>
-        <Image src={coffee.image} />
-      <Text className={classes.title} mt={5}>
-        {coffee.title}
-      </Text>
-      <Text className={classes.price} mt={3}>
-        {coffee.price}
-      </Text>
-    </Card>
-  ));
-
-  const juiceCards = juiceList.map((juice) => (
-    <Card key={juice.title} p="md" radius="md" component="a" href="#" className={classes.card}>
-        <Image src={juice.image} />
-      <Text className={classes.title} mt={5}>
-        {juice.title}
-      </Text>
-      <Text className={classes.price} mt={3}>
-        {juice.price}
-      </Text>
-    </Card>
-  ));
-
   return (
     <Container py="xl">
       <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
@@ -98,22 +76,22 @@ export function Items({ tacosRef,saladRef,coffeeRef,juiceRef, }: Props) {
          タコス Tacos
         </div>
         <div />
-        {tacosCards}
+        <Cards itemList={tacosList} />
         <div ref={saladRef} className={classes.category}>
          サラダ Salad
         </div>
         <div />
-        {saladCards}
+        <Cards itemList={saladList} />
         <div ref={coffeeRef} className={classes.category}>
          コーヒー Coffee
         </div>
         <div />
-        {coffeeCards}
+        <Cards itemList={coffeeList} />
         <div ref={juiceRef} className={classes.category}>
         ソフトドリンク Soft Drink
         </div>
         <div />
-        {juiceCards}
+        <Cards itemList={juiceList} />
       </SimpleGrid>
     </Container>
   );
