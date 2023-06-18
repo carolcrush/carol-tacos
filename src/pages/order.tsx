@@ -1,6 +1,34 @@
 import Head from 'next/head'
+import { useRef } from 'react';
+import { NavbarSimple } from '@/component/navbar'
+import { Items } from '@/component/items'
+import styles from '../styles/order.module.css'
 
 export default function Order() {
+  const tacosRef = useRef<HTMLDivElement>(null);
+  const saladRef = useRef<HTMLDivElement>(null);
+  const coffeeRef = useRef<HTMLDivElement>(null);
+  const juiceRef = useRef<HTMLDivElement>(null);
+  const goToTacos = () => {
+    if (tacosRef.current) {
+      tacosRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+  const goToSalad = () => {
+    if (saladRef.current) {
+      saladRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+  const goToCoffee = () => {
+    if (coffeeRef.current) {
+      coffeeRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+  const goToJuice = () => {
+    if (juiceRef.current) {
+      juiceRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
   return (
     <>
       <Head>
@@ -10,7 +38,12 @@ export default function Order() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        Hello
+        <div className={styles.sidebar}>
+          <NavbarSimple goToTacos={goToTacos} goToSalad={goToSalad} goToCoffee={goToCoffee} goToJuice={goToJuice}/>
+        </div>
+        <div>
+          <Items tacosRef={tacosRef} saladRef={saladRef} coffeeRef={coffeeRef} juiceRef={juiceRef}/>
+        </div>
       </div>
     </>
   )
