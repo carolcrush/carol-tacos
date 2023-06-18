@@ -17,7 +17,8 @@ npm run dev
 画面の真ん中の`ORDER NOW`ボタンをクリックすると、商品の画面に進みます。左側はナビバー（固定されている）で、右側は商品の写真、名前と値段です。ナビバーにタコス、サラダ、コーヒー、ソフトドリンクの四つのカテゴリがあります。あるカテゴリをクリックすると、対応する商品のところに移動できます。
 
 <br>
-<div><video src="public/re2.mov" autoplay></div>
+<div><video src="https://github.com/carolcrush/carol-tacos/assets/102743332/b7b0bc79-de99-4be1-ac0b-39dcf1df4c14" autoplay></div>
+
 
 <br>
 
