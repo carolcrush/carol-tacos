@@ -38,10 +38,10 @@ export default function Order() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <div className={styles.sidebar}>
+        <div>
           <NavbarSimple goToTacos={goToTacos} goToSalad={goToSalad} goToCoffee={goToCoffee} goToJuice={goToJuice}/>
         </div>
-        <div>
+        <div className={styles.content}>
           <Items tacosRef={tacosRef} saladRef={saladRef} coffeeRef={coffeeRef} juiceRef={juiceRef}/>
         </div>
       </div>
