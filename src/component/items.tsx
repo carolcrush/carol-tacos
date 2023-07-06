@@ -1,9 +1,14 @@
 import { createStyles, SimpleGrid, Card, Image, Text, Container, rem } from '@mantine/core';
-import { RefObject } from 'react'
-import { tacosList } from '../mock/tacos'
-import { saladList } from '../mock/salad'
-import { coffeeList } from '../mock/coffee'
-import { juiceList } from '../mock/juice'
+import { RefObject, useEffect, useState } from 'react'
+import { Item } from '../types/items'
+import axios from "axios";
+
+// GETリクエスト
+export const getJSON = async (): Promise<Item[]> => {
+  const url = "/api/items"; 
+  const response = await axios.get(url);
+  return response.data.data;
+};
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -35,11 +40,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 type CardProps = {
-  itemList: {
-    title: string;
-    price: string;
-    image: string;
-  }[]
+  itemList:Item[]
 }
 function Cards({ itemList }: CardProps){
   const { classes } = useStyles();
@@ -67,7 +68,13 @@ type Props = {
   juiceRef: RefObject<HTMLDivElement>
 }
 export function Items({ tacosRef,saladRef,coffeeRef,juiceRef, }: Props) {
+  const [itemList, setItemList] = useState<Item[]>()
   const { classes } = useStyles();
+  useEffect(() => {
+    getJSON().then((res) => setItemList(res))
+  }, [])
+
+  if (!itemList) return null;
 
   return (
     <Container py="xl">
@@ -76,22 +83,22 @@ export function Items({ tacosRef,saladRef,coffeeRef,juiceRef, }: Props) {
          タコス Tacos
         </div>
         <div />
-        <Cards itemList={tacosList} />
+        <Cards itemList={itemList.filter(item => item.category === 'tacos')} />
         <div ref={saladRef} className={classes.category}>
          サラダ Salad
         </div>
         <div />
-        <Cards itemList={saladList} />
+        <Cards itemList={itemList.filter(item => item.category === 'salad')} />
         <div ref={coffeeRef} className={classes.category}>
          コーヒー Coffee
         </div>
         <div />
-        <Cards itemList={coffeeList} />
+        <Cards itemList={itemList.filter(item => item.category === 'coffee')} />
         <div ref={juiceRef} className={classes.category}>
         ソフトドリンク Soft Drink
         </div>
         <div />
-        <Cards itemList={juiceList} />
+        <Cards itemList={itemList.filter(item => item.category === 'juice')} />
       </SimpleGrid>
     </Container>
   );
