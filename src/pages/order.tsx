@@ -1,8 +1,8 @@
-import Head from 'next/head'
+import Head from 'next/head';
 import { useRef } from 'react';
-import { NavbarSimple } from '@/component/navbar'
-import { Items } from '@/component/items'
-import styles from '../styles/order.module.css'
+import { NavbarSimple } from '@/component/navbar';
+import { Items } from '@/component/items';
+import styles from '../styles/order.module.css';
 
 export default function Order() {
   const tacosRef = useRef<HTMLDivElement>(null);
@@ -13,22 +13,22 @@ export default function Order() {
     if (tacosRef.current) {
       tacosRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }
+  };
   const goToSalad = () => {
     if (saladRef.current) {
       saladRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }
+  };
   const goToCoffee = () => {
     if (coffeeRef.current) {
       coffeeRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }
+  };
   const goToJuice = () => {
     if (juiceRef.current) {
       juiceRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }
+  };
   return (
     <>
       <Head>
@@ -39,12 +39,22 @@ export default function Order() {
       </Head>
       <div>
         <div>
-          <NavbarSimple goToTacos={goToTacos} goToSalad={goToSalad} goToCoffee={goToCoffee} goToJuice={goToJuice}/>
+          <NavbarSimple
+            goToTacos={goToTacos}
+            goToSalad={goToSalad}
+            goToCoffee={goToCoffee}
+            goToJuice={goToJuice}
+          />
         </div>
         <div className={styles.content}>
-          <Items tacosRef={tacosRef} saladRef={saladRef} coffeeRef={coffeeRef} juiceRef={juiceRef}/>
+          <Items
+            tacosRef={tacosRef}
+            saladRef={saladRef}
+            coffeeRef={coffeeRef}
+            juiceRef={juiceRef}
+          />
         </div>
       </div>
     </>
-  )
+  );
 }
