@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useRef } from 'react';
-import { Image } from '@mantine/core';
+import { Image, Button } from '@mantine/core';
 import { NavbarSimple } from '@/component/navbar';
 import { Items } from '@/component/items';
 import styles from '../styles/order.module.css';
@@ -53,13 +53,23 @@ export default function Order() {
           />
         </div>
         <div className={styles.div}>
-          <div className={styles.cartButton} onClick={() => handler('/check')}>
+          <Button
+            radius="xl"
+            size="sm"
+            color="dark"
+            onClick={() => handler('/check')}
+          >
             <Image
               src="cart.svg"
               alt="cart image"
-              style={{ width: '30px', height: '30px', color: 'white' }}
+              style={{
+                width: '20px',
+                height: '20px',
+                transform: 'scaleX(-1)',
+              }}
             />
-          </div>
+            <div style={{ margin: '10px' }}>Cart・0</div>
+          </Button>
         </div>
         <div className={styles.content}>
           <Items

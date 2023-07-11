@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { createStyles, Navbar, Group, getStylesRef, rem } from '@mantine/core';
+import { createStyles, Navbar, Group, rem } from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -10,62 +10,26 @@ const useStyles = createStyles((theme) => ({
     }`,
   },
 
-  footer: {
-    paddingTop: theme.spacing.md,
-    marginTop: theme.spacing.md,
-    borderTop: `${rem(1)} solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
-    }`,
-  },
-
   link: {
     ...theme.fn.focusStyles(),
     display: 'flex',
     alignItems: 'center',
     textDecoration: 'none',
-    fontSize: theme.fontSizes.sm,
-    color:
-      theme.colorScheme === 'dark'
-        ? theme.colors.dark[1]
-        : theme.colors.gray[7],
+    fontSize: 15,
+    color: 'black',
     padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
     borderRadius: theme.radius.sm,
-    fontWeight: 500,
+    fontWeight: 600,
 
     '&:hover': {
-      backgroundColor:
-        theme.colorScheme === 'dark'
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
-      color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-
-      [`& .${getStylesRef('icon')}`]: {
-        color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-      },
+      backgroundColor: theme.colors.gray[3],
+      color: 'black',
     },
-  },
-
-  linkIcon: {
-    ref: getStylesRef('icon'),
-    color:
-      theme.colorScheme === 'dark'
-        ? theme.colors.dark[2]
-        : theme.colors.gray[6],
-    marginRight: theme.spacing.sm,
   },
 
   linkActive: {
     '&, &:hover': {
-      backgroundColor: theme.fn.variant({
-        variant: 'light',
-        color: theme.primaryColor,
-      }).background,
-      color: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
-        .color,
-      [`& .${getStylesRef('icon')}`]: {
-        color: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
-          .color,
-      },
+      textDecoration: 'underline',
     },
   },
 }));
@@ -124,7 +88,7 @@ export function NavbarSimple({
     <Navbar fixed={true} width={{ sm: 350 }} p="md">
       <Navbar.Section grow>
         <Group className={classes.header} position="apart">
-          <div style={{ fontSize: 30 }}>
+          <div style={{ fontSize: 35, fontWeight: 600 }}>
             Carol Tacos <br />
             お茶の水女子大学店
           </div>
