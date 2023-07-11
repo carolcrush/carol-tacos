@@ -63,7 +63,7 @@ function Cards({ itemList }: CardProps) {
           href="#"
           className={classes.card}
         >
-          <Image src={item.image} />
+          <Image src={item.image} alt="item image" />
           <Text className={classes.title} mt={5}>
             {item.title}
           </Text>

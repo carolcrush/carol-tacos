@@ -1,8 +1,14 @@
 import Head from 'next/head';
 import { useRef } from 'react';
+import { Image } from '@mantine/core';
 import { NavbarSimple } from '@/component/navbar';
 import { Items } from '@/component/items';
 import styles from '../styles/order.module.css';
+import Router from 'next/router';
+
+const handler = (path: string) => {
+  Router.push(path);
+};
 
 export default function Order() {
   const tacosRef = useRef<HTMLDivElement>(null);
@@ -45,6 +51,15 @@ export default function Order() {
             goToCoffee={goToCoffee}
             goToJuice={goToJuice}
           />
+        </div>
+        <div className={styles.div}>
+          <div className={styles.cartButton} onClick={() => handler('/check')}>
+            <Image
+              src="cart.svg"
+              alt="cart image"
+              style={{ width: '30px', height: '30px', color: 'white' }}
+            />
+          </div>
         </div>
         <div className={styles.content}>
           <Items
