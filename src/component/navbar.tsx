@@ -125,7 +125,7 @@ export function NavbarSimple({
       <Navbar.Section grow>
         <Group className={classes.header} position="apart">
           <div style={{ fontSize: 30 }}>
-            キャロルタコス <br />
+            Carol Tacos <br />
             お茶の水女子大学店
           </div>
         </Group>
