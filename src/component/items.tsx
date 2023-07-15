@@ -6,6 +6,7 @@ import {
   Text,
   Container,
   rem,
+  Select,
 } from '@mantine/core';
 import { RefObject, useEffect, useState } from 'react';
 import { Item } from '../types/items';
@@ -19,6 +20,13 @@ export const getJSON = async (): Promise<Item[]> => {
 };
 
 const useStyles = createStyles((theme) => ({
+  orderNumber: {
+    float: 'right',
+    position: 'sticky',
+    bottom: '20px',
+    right: '30px',
+  },
+
   card: {
     transition: 'transform 150ms ease, box-shadow 150ms ease',
 
@@ -47,6 +55,10 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+const data = Array(11)
+  .fill(0)
+  .map((_, index) => `${index}`);
+
 type CardProps = {
   itemList: Item[];
 };
@@ -55,14 +67,7 @@ function Cards({ itemList }: CardProps) {
   return (
     <>
       {itemList.map((item) => (
-        <Card
-          key={item.title}
-          p="md"
-          radius="md"
-          component="a"
-          href="#"
-          className={classes.card}
-        >
+        <Card key={item.title} p="md" radius="md" className={classes.card}>
           <Image src={item.image} alt="item image" />
           <Text className={classes.title} mt={5}>
             {item.title}
@@ -70,6 +75,15 @@ function Cards({ itemList }: CardProps) {
           <Text className={classes.price} mt={3}>
             {item.price}
           </Text>
+          <div className={classes.orderNumber}>
+            <Select
+              style={{ width: '60px' }}
+              data={data}
+              placeholder="0"
+              maxDropdownHeight={100}
+              size="xs"
+            />
+          </div>
         </Card>
       ))}
     </>
