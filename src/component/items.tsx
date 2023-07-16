@@ -6,6 +6,7 @@ import {
   Text,
   Container,
   rem,
+  Select,
 } from '@mantine/core';
 import { RefObject, useEffect, useState } from 'react';
 import { Item } from '../types/items';
@@ -19,6 +20,13 @@ export const getJSON = async (): Promise<Item[]> => {
 };
 
 const useStyles = createStyles((theme) => ({
+  orderBox: {
+    float: 'right',
+    position: 'sticky',
+    bottom: '20px',
+    right: '30px',
+  },
+
   card: {
     transition: 'transform 150ms ease, box-shadow 150ms ease',
 
@@ -47,22 +55,27 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+const data = Array(11)
+  .fill(0)
+  .map((_, index) => `${index}`);
+
 type CardProps = {
   itemList: Item[];
+  counter: (item: string, value: number) => void;
 };
-function Cards({ itemList }: CardProps) {
+
+function Cards({ itemList, counter }: CardProps) {
   const { classes } = useStyles();
+  const onChange = (item: string) => (value: string | null) => {
+    if (value !== null) {
+      counter(item, Number(value));
+    }
+  };
+
   return (
     <>
       {itemList.map((item) => (
-        <Card
-          key={item.title}
-          p="md"
-          radius="md"
-          component="a"
-          href="#"
-          className={classes.card}
-        >
+        <Card key={item.title} p="md" radius="md" className={classes.card}>
           <Image src={item.image} alt="item image" />
           <Text className={classes.title} mt={5}>
             {item.title}
@@ -70,6 +83,16 @@ function Cards({ itemList }: CardProps) {
           <Text className={classes.price} mt={3}>
             {item.price}
           </Text>
+          <div className={classes.orderBox}>
+            <Select
+              style={{ width: '60px' }}
+              data={data}
+              placeholder="0"
+              maxDropdownHeight={100}
+              size="xs"
+              onChange={onChange(item.title)}
+            />
+          </div>
         </Card>
       ))}
     </>
@@ -81,8 +104,15 @@ type Props = {
   saladRef: RefObject<HTMLDivElement>;
   coffeeRef: RefObject<HTMLDivElement>;
   juiceRef: RefObject<HTMLDivElement>;
+  counter: (item: string, value: number) => void;
 };
-export function Items({ tacosRef, saladRef, coffeeRef, juiceRef }: Props) {
+export function Items({
+  tacosRef,
+  saladRef,
+  coffeeRef,
+  juiceRef,
+  counter,
+}: Props) {
   const [itemList, setItemList] = useState<Item[]>();
   const { classes } = useStyles();
   useEffect(() => {
@@ -100,6 +130,7 @@ export function Items({ tacosRef, saladRef, coffeeRef, juiceRef }: Props) {
         <div />
         <Cards
           itemList={itemList.filter((item) => item.category === 'tacos')}
+          counter={counter}
         />
         <div ref={saladRef} className={classes.category}>
           サラダ Salad
@@ -107,6 +138,7 @@ export function Items({ tacosRef, saladRef, coffeeRef, juiceRef }: Props) {
         <div />
         <Cards
           itemList={itemList.filter((item) => item.category === 'salad')}
+          counter={counter}
         />
         <div ref={coffeeRef} className={classes.category}>
           コーヒー Coffee
@@ -114,6 +146,7 @@ export function Items({ tacosRef, saladRef, coffeeRef, juiceRef }: Props) {
         <div />
         <Cards
           itemList={itemList.filter((item) => item.category === 'coffee')}
+          counter={counter}
         />
         <div ref={juiceRef} className={classes.category}>
           ソフトドリンク Soft Drink
@@ -121,6 +154,7 @@ export function Items({ tacosRef, saladRef, coffeeRef, juiceRef }: Props) {
         <div />
         <Cards
           itemList={itemList.filter((item) => item.category === 'juice')}
+          counter={counter}
         />
       </SimpleGrid>
     </Container>

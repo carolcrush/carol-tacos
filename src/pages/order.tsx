@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Image, Button } from '@mantine/core';
 import { NavbarSimple } from '@/component/navbar';
 import { Items } from '@/component/items';
@@ -35,6 +35,17 @@ export default function Order() {
       juiceRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
+  const [orderCount, setOrderlCount] = useState({});
+  const counter = (item: string, value: number) => {
+    setOrderlCount((pre) => {
+      return { ...pre, [item]: value };
+    });
+  };
+  const orderCountList: number[] = Object.values(orderCount);
+  const orderCountNumber = orderCountList.reduce((pre, current) => {
+    return Number(pre) + Number(current);
+  }, 0);
+
   return (
     <>
       <Head>
@@ -68,7 +79,7 @@ export default function Order() {
                 transform: 'scaleX(-1)',
               }}
             />
-            <div style={{ margin: '10px' }}>Cart・0</div>
+            <div style={{ margin: '10px' }}>Cart・{orderCountNumber}</div>
           </Button>
         </div>
         <div className={styles.content}>
@@ -77,6 +88,7 @@ export default function Order() {
             saladRef={saladRef}
             coffeeRef={coffeeRef}
             juiceRef={juiceRef}
+            counter={counter}
           />
         </div>
       </div>
