@@ -89,6 +89,7 @@ export default function Order() {
             coffeeRef={coffeeRef}
             juiceRef={juiceRef}
             counter={counter}
+            orderCount={orderCount}
           />
         </div>
       </div>
