@@ -20,7 +20,7 @@ export const getJSON = async (): Promise<Item[]> => {
 };
 
 const useStyles = createStyles((theme) => ({
-  orderNumber: {
+  orderBox: {
     float: 'right',
     position: 'sticky',
     bottom: '20px',
@@ -83,7 +83,7 @@ function Cards({ itemList, counter }: CardProps) {
           <Text className={classes.price} mt={3}>
             {item.price}
           </Text>
-          <div className={classes.orderNumber}>
+          <div className={classes.orderBox}>
             <Select
               style={{ width: '60px' }}
               data={data}
