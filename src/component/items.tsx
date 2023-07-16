@@ -59,41 +59,70 @@ const data = Array(11)
   .fill(0)
   .map((_, index) => `${index}`);
 
-type CardProps = {
-  itemList: Item[];
+type CardItemProps = {
+  item: Item;
   counter: (item: string, value: number) => void;
+  orderCount: number;
 };
-
-function Cards({ itemList, counter }: CardProps) {
+function CardItem({ item, counter, orderCount }: CardItemProps) {
   const { classes } = useStyles();
-  const onChange = (item: string) => (value: string | null) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const onChange = (value: string | null) => {
     if (value !== null) {
-      counter(item, Number(value));
+      counter(item.title, Number(value));
     }
   };
+  return (
+    <Card
+      key={item.title}
+      p="md"
+      radius="md"
+      className={classes.card}
+      onMouseOver={() => setIsHovered(true)}
+      onMouseOut={() => setIsHovered(false)}
+    >
+      <Image src={item.image} alt="item image" />
+      <Text className={classes.title} mt={5}>
+        {item.title}
+      </Text>
+      <Text className={classes.price} mt={3}>
+        {item.price}
+      </Text>
+      <div
+        className={classes.orderBox}
+        style={{
+          visibility: isHovered || orderCount > 0 ? 'visible' : 'hidden',
+        }}
+      >
+        <Select
+          style={{ width: '60px' }}
+          data={data}
+          placeholder="0"
+          maxDropdownHeight={100}
+          size="xs"
+          onChange={onChange}
+        />
+      </div>
+    </Card>
+  );
+}
 
+type CardsProps = {
+  itemList: Item[];
+  counter: (item: string, value: number) => void;
+  orderCount: { [key: string]: number };
+};
+
+function Cards({ itemList, counter, orderCount }: CardsProps) {
   return (
     <>
-      {itemList.map((item) => (
-        <Card key={item.title} p="md" radius="md" className={classes.card}>
-          <Image src={item.image} alt="item image" />
-          <Text className={classes.title} mt={5}>
-            {item.title}
-          </Text>
-          <Text className={classes.price} mt={3}>
-            {item.price}
-          </Text>
-          <div className={classes.orderBox}>
-            <Select
-              style={{ width: '60px' }}
-              data={data}
-              placeholder="0"
-              maxDropdownHeight={100}
-              size="xs"
-              onChange={onChange(item.title)}
-            />
-          </div>
-        </Card>
+      {itemList.map((item, index) => (
+        <CardItem
+          key={index}
+          item={item}
+          counter={counter}
+          orderCount={orderCount[item.title]}
+        />
       ))}
     </>
   );
@@ -105,6 +134,7 @@ type Props = {
   coffeeRef: RefObject<HTMLDivElement>;
   juiceRef: RefObject<HTMLDivElement>;
   counter: (item: string, value: number) => void;
+  orderCount: { [key: string]: number };
 };
 export function Items({
   tacosRef,
@@ -112,6 +142,7 @@ export function Items({
   coffeeRef,
   juiceRef,
   counter,
+  orderCount,
 }: Props) {
   const [itemList, setItemList] = useState<Item[]>();
   const { classes } = useStyles();
@@ -131,6 +162,7 @@ export function Items({
         <Cards
           itemList={itemList.filter((item) => item.category === 'tacos')}
           counter={counter}
+          orderCount={orderCount}
         />
         <div ref={saladRef} className={classes.category}>
           サラダ Salad
@@ -139,6 +171,7 @@ export function Items({
         <Cards
           itemList={itemList.filter((item) => item.category === 'salad')}
           counter={counter}
+          orderCount={orderCount}
         />
         <div ref={coffeeRef} className={classes.category}>
           コーヒー Coffee
@@ -147,6 +180,7 @@ export function Items({
         <Cards
           itemList={itemList.filter((item) => item.category === 'coffee')}
           counter={counter}
+          orderCount={orderCount}
         />
         <div ref={juiceRef} className={classes.category}>
           ソフトドリンク Soft Drink
@@ -155,6 +189,7 @@ export function Items({
         <Cards
           itemList={itemList.filter((item) => item.category === 'juice')}
           counter={counter}
+          orderCount={orderCount}
         />
       </SimpleGrid>
     </Container>
