@@ -61,9 +61,17 @@ const data = Array(11)
 
 type CardProps = {
   itemList: Item[];
+  counter: (item: string, value: number) => void;
 };
-function Cards({ itemList }: CardProps) {
+
+function Cards({ itemList, counter }: CardProps) {
   const { classes } = useStyles();
+  const onChange = (item: string) => (value: string | null) => {
+    if (value !== null) {
+      counter(item, Number(value));
+    }
+  };
+
   return (
     <>
       {itemList.map((item) => (
@@ -82,6 +90,7 @@ function Cards({ itemList }: CardProps) {
               placeholder="0"
               maxDropdownHeight={100}
               size="xs"
+              onChange={onChange(item.title)}
             />
           </div>
         </Card>
@@ -95,8 +104,15 @@ type Props = {
   saladRef: RefObject<HTMLDivElement>;
   coffeeRef: RefObject<HTMLDivElement>;
   juiceRef: RefObject<HTMLDivElement>;
+  counter: (item: string, value: number) => void;
 };
-export function Items({ tacosRef, saladRef, coffeeRef, juiceRef }: Props) {
+export function Items({
+  tacosRef,
+  saladRef,
+  coffeeRef,
+  juiceRef,
+  counter,
+}: Props) {
   const [itemList, setItemList] = useState<Item[]>();
   const { classes } = useStyles();
   useEffect(() => {
@@ -114,6 +130,7 @@ export function Items({ tacosRef, saladRef, coffeeRef, juiceRef }: Props) {
         <div />
         <Cards
           itemList={itemList.filter((item) => item.category === 'tacos')}
+          counter={counter}
         />
         <div ref={saladRef} className={classes.category}>
           サラダ Salad
@@ -121,6 +138,7 @@ export function Items({ tacosRef, saladRef, coffeeRef, juiceRef }: Props) {
         <div />
         <Cards
           itemList={itemList.filter((item) => item.category === 'salad')}
+          counter={counter}
         />
         <div ref={coffeeRef} className={classes.category}>
           コーヒー Coffee
@@ -128,6 +146,7 @@ export function Items({ tacosRef, saladRef, coffeeRef, juiceRef }: Props) {
         <div />
         <Cards
           itemList={itemList.filter((item) => item.category === 'coffee')}
+          counter={counter}
         />
         <div ref={juiceRef} className={classes.category}>
           ソフトドリンク Soft Drink
@@ -135,6 +154,7 @@ export function Items({ tacosRef, saladRef, coffeeRef, juiceRef }: Props) {
         <div />
         <Cards
           itemList={itemList.filter((item) => item.category === 'juice')}
+          counter={counter}
         />
       </SimpleGrid>
     </Container>
