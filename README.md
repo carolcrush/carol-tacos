@@ -21,7 +21,11 @@ npm run dev
 5. カゴのところをクリックすると、注文確認ページに進みます。
 
 <br>
-<div><video src="https://github.com/carolcrush/carol-tacos/assets/102743332/f4eccc7a-b3a7-4f1c-b408-42baf1c7c26a" autoplay></div>
+<div><video id="movie" src="https://github.com/carolcrush/carol-tacos/assets/102743332/f4eccc7a-b3a7-4f1c-b408-42baf1c7c26a" autoplay></div>
+<script type="text/javascript">
+    var vid = document.getElementById("movie");
+    vid.playbackRate = 2.5;
+</script>
 
 <br>
 
