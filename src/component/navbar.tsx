@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createStyles, Navbar, Group, rem } from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
@@ -55,6 +55,7 @@ export function NavbarSimple({
 }: Props) {
   const { classes, cx } = useStyles();
   const [active, setActive] = useState('Billing');
+  const [top, setTop] = useState(230);
 
   const links = data.map((item) => (
     <a
@@ -84,8 +85,24 @@ export function NavbarSimple({
     </a>
   ));
 
+  // useEffect(() => {
+  //   setTop(230 - document.documentElement.scrollTop);
+  // }, []);
+  useEffect(() => {
+    const handleScroll = () => {
+      const newTop = 230 - document.documentElement.scrollTop;
+      if (newTop >= 0) {
+        setTop(newTop);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <Navbar fixed={true} width={{ sm: 350 }} p="md">
+    <Navbar fixed={true} top={{ sm: top }} width={{ sm: 350 }} p="md">
       <Navbar.Section grow>
         <Group className={classes.header} position="apart">
           <div style={{ fontSize: 35, fontWeight: 600 }}>

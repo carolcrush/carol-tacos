@@ -15,7 +15,7 @@ const useStyles = createStyles((theme) => ({
     position: 'relative',
     paddingTop: rem(180),
     paddingBottom: rem(130),
-    backgroundImage: 'url(/tacos.top.jpg)',
+    backgroundImage: 'url(/tacos-bg.jpeg)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
 
@@ -83,7 +83,7 @@ export function Header() {
       <div className={classes.inner}>
         <Title className={classes.title}>Carol Tacos</Title>
 
-        <Container size={640}>
+        <Container>
           <Text size="lg" className={classes.description}>
             美味しさとアツさが融合する至福のタコス体験へようこそ！
           </Text>

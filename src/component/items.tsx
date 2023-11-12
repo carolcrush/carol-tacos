@@ -10,14 +10,6 @@ import {
 } from '@mantine/core';
 import { RefObject, useEffect, useState } from 'react';
 import { Item } from '../types/items';
-import axios from 'axios';
-
-// GETリクエスト
-export const getJSON = async (): Promise<Item[]> => {
-  const url = '/api/items';
-  const response = await axios.get(url);
-  return response.data.data;
-};
 
 const useStyles = createStyles((theme) => ({
   orderBox: {
@@ -61,15 +53,15 @@ const data = Array(11)
 
 type CardItemProps = {
   item: Item;
-  counter: (item: string, value: number) => void;
-  orderCount: number;
+  counter: (item: string, price: number, count: number) => void;
+  orderList: number;
 };
-function CardItem({ item, counter, orderCount }: CardItemProps) {
+function CardItem({ item, counter, orderList }: CardItemProps) {
   const { classes } = useStyles();
   const [isHovered, setIsHovered] = useState(false);
-  const onChange = (value: string | null) => {
-    if (value !== null) {
-      counter(item.title, Number(value));
+  const onChange = (count: string | null) => {
+    if (count !== null) {
+      counter(item.title, item.price, Number(count));
     }
   };
   return (
@@ -86,16 +78,17 @@ function CardItem({ item, counter, orderCount }: CardItemProps) {
         {item.title}
       </Text>
       <Text className={classes.price} mt={3}>
-        {item.price}
+        ¥{item.price}
       </Text>
       <div
         className={classes.orderBox}
         style={{
-          visibility: isHovered || orderCount > 0 ? 'visible' : 'hidden',
+          visibility: isHovered || orderList > 0 ? 'visible' : 'hidden',
         }}
       >
         <Select
           style={{ width: '60px' }}
+          defaultValue={String(orderList)}
           data={data}
           placeholder="0"
           maxDropdownHeight={100}
@@ -109,11 +102,11 @@ function CardItem({ item, counter, orderCount }: CardItemProps) {
 
 type CardsProps = {
   itemList: Item[];
-  counter: (item: string, value: number) => void;
-  orderCount: { [key: string]: number };
+  counter: (item: string, price: number, count: number) => void;
+  orderList?: { [key: string]: { price: number; count: number } };
 };
 
-function Cards({ itemList, counter, orderCount }: CardsProps) {
+function Cards({ itemList, counter, orderList }: CardsProps) {
   return (
     <>
       {itemList.map((item, index) => (
@@ -121,7 +114,7 @@ function Cards({ itemList, counter, orderCount }: CardsProps) {
           key={index}
           item={item}
           counter={counter}
-          orderCount={orderCount[item.title]}
+          orderList={(orderList && orderList[item.title]?.count) ?? 0}
         />
       ))}
     </>
@@ -133,8 +126,9 @@ type Props = {
   saladRef: RefObject<HTMLDivElement>;
   coffeeRef: RefObject<HTMLDivElement>;
   juiceRef: RefObject<HTMLDivElement>;
-  counter: (item: string, value: number) => void;
-  orderCount: { [key: string]: number };
+  counter: (item: string, price: number, count: number) => void;
+  orderList?: { [key: string]: { price: number; count: number } };
+  itemList?: Item[];
 };
 export function Items({
   tacosRef,
@@ -142,13 +136,10 @@ export function Items({
   coffeeRef,
   juiceRef,
   counter,
-  orderCount,
+  orderList,
+  itemList,
 }: Props) {
-  const [itemList, setItemList] = useState<Item[]>();
   const { classes } = useStyles();
-  useEffect(() => {
-    getJSON().then((res) => setItemList(res));
-  }, []);
 
   if (!itemList) return null;
 
@@ -162,7 +153,7 @@ export function Items({
         <Cards
           itemList={itemList.filter((item) => item.category === 'tacos')}
           counter={counter}
-          orderCount={orderCount}
+          orderList={orderList}
         />
         <div ref={saladRef} className={classes.category}>
           サラダ Salad
@@ -171,7 +162,7 @@ export function Items({
         <Cards
           itemList={itemList.filter((item) => item.category === 'salad')}
           counter={counter}
-          orderCount={orderCount}
+          orderList={orderList}
         />
         <div ref={coffeeRef} className={classes.category}>
           コーヒー Coffee
@@ -180,7 +171,7 @@ export function Items({
         <Cards
           itemList={itemList.filter((item) => item.category === 'coffee')}
           counter={counter}
-          orderCount={orderCount}
+          orderList={orderList}
         />
         <div ref={juiceRef} className={classes.category}>
           ソフトドリンク Soft Drink
@@ -189,7 +180,7 @@ export function Items({
         <Cards
           itemList={itemList.filter((item) => item.category === 'juice')}
           counter={counter}
-          orderCount={orderCount}
+          orderList={orderList}
         />
       </SimpleGrid>
     </Container>
