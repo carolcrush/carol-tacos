@@ -1,0 +1,5 @@
+.deleteLink {
+  color: #6f6f6f;
+  text-decoration: underline;
+  cursor: pointer;
+}
