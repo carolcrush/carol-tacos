@@ -29,6 +29,7 @@ function CheckList() {
     updatedCheckList.splice(index, 1);
     setCheckList(updatedCheckList);
   };
+
   const onChange = (index: number, count: string | null) => {
     if (count !== null) {
       setCheckList((checkList) => {
@@ -49,6 +50,7 @@ function CheckList() {
     (total, item) => total + item.price * item.count,
     0,
   );
+
   return (
     <>
       <Head>
@@ -103,45 +105,48 @@ function CheckList() {
       >
         <table style={{ borderCollapse: 'collapse' }} cellSpacing={100}>
           <tbody>
-            {checkList?.reverse().map((row, index) => (
-              <div key={index} style={{ padding: '20px' }}>
-                <tr style={{ position: 'relative', textAlign: 'center' }}>
-                  <td>
-                    <Image
-                      src={row.image}
-                      alt="title image"
-                      width={140}
-                      height={95}
-                    />
-                  </td>
-                  <td style={{ width: '250px', padding: '20px' }}>
-                    <Text>{row.title}</Text>
-                  </td>
-                  <td style={{ width: '100px', padding: '20px' }}>
-                    ¥{row.price}
-                  </td>
-                  <td style={{ width: '150px', padding: '20px' }}>
-                    <Select
-                      style={{ width: '60px' }}
-                      defaultValue={String(row.count)}
-                      data={data}
-                      placeholder="0"
-                      maxDropdownHeight={100}
-                      size="xs"
-                      onChange={(count) => onChange(index, count)}
-                    />
-                  </td>
-                  <td>
-                    <a
-                      onClick={() => handleDelete(index)}
-                      className={styles.deleteLink}
-                    >
-                      削除
-                    </a>
-                  </td>
-                </tr>
-              </div>
-            ))}
+            {checkList
+              ?.slice()
+              .reverse()
+              .map((row, index) => (
+                <div key={index} style={{ padding: '20px' }}>
+                  <tr style={{ position: 'relative', textAlign: 'center' }}>
+                    <td>
+                      <Image
+                        src={row.image}
+                        alt="title image"
+                        width={140}
+                        height={95}
+                      />
+                    </td>
+                    <td style={{ width: '250px', padding: '20px' }}>
+                      <Text>{row.title}</Text>
+                    </td>
+                    <td style={{ width: '100px', padding: '20px' }}>
+                      ¥{row.price}
+                    </td>
+                    <td style={{ width: '150px', padding: '20px' }}>
+                      <Select
+                        style={{ width: '60px' }}
+                        defaultValue={String(row.count)}
+                        data={data}
+                        placeholder="0"
+                        maxDropdownHeight={100}
+                        size="xs"
+                        onChange={(count) => onChange(index, count)}
+                      />
+                    </td>
+                    <td>
+                      <a
+                        onClick={() => handleDelete(index)}
+                        className={styles.deleteLink}
+                      >
+                        削除
+                      </a>
+                    </td>
+                  </tr>
+                </div>
+              ))}
           </tbody>
         </table>
       </div>
