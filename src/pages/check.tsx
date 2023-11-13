@@ -6,6 +6,12 @@ import Image from 'next/image';
 import useLocalStorageState from 'use-local-storage-state';
 import styles from '../styles/check.module.css';
 
+const createMessage = (checkList: CheckItem[]) => {
+  return `
+  新しい注文がありました：
+${checkList.map((order) => `${order.title}: ${order.count}`).join('\n')}
+  `;
+};
 const handler = (path: string) => {
   Router.push(path);
 };
@@ -57,6 +63,7 @@ function CheckList() {
         width={1500}
         height={500}
         style={{
+          minWidth: '100%',
           marginTop: '-150px',
           marginBottom: '-100px',
           objectFit: 'cover',
@@ -96,7 +103,7 @@ function CheckList() {
       >
         <table style={{ borderCollapse: 'collapse' }} cellSpacing={100}>
           <tbody>
-            {checkList?.map((row, index) => (
+            {checkList?.reverse().map((row, index) => (
               <div key={index} style={{ padding: '20px' }}>
                 <tr style={{ position: 'relative', textAlign: 'center' }}>
                   <td>
@@ -160,6 +167,10 @@ function CheckList() {
             if (checkList && checkList.length > 0) {
               handler('/thanks');
               setCheckList([]);
+              fetch('/api/slack', {
+                method: 'POST',
+                body: createMessage(checkList),
+              });
             }
           }}
           disabled={checkList && checkList.length === 0}

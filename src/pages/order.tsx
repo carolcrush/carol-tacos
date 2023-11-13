@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import { useRef, useState, useEffect } from 'react';
 import { Image, Button } from '@mantine/core';
-import { NavbarSimple } from '@/component/Navbar';
-import { Items } from '@/component/Items';
+import { NavbarSimple } from '@/component/navbar';
+import { Items } from '@/component/items';
 import { Item, CheckItem } from '../types/items';
 import styles from '../styles/order.module.css';
 import Router from 'next/router';
@@ -104,7 +104,7 @@ export default function Order() {
       <Image
         src="/tacos-bg.jpeg"
         alt=""
-        width={1500}
+        width={'100%'}
         height={500}
         style={{
           marginTop: '-150px',
