@@ -1,5 +1,10 @@
-import { Overlay, createStyles, rem } from '@mantine/core';
+import { Title, Overlay, createStyles, rem, Button } from '@mantine/core';
 import Image from 'next/image';
+import Router from 'next/router';
+
+const handler = (path: string) => {
+  Router.push(path);
+};
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -16,6 +21,25 @@ const useStyles = createStyles((theme) => ({
       paddingBottom: rem(50),
     },
   },
+
+  inner: {
+    position: 'relative',
+    zIndex: 1,
+    textAlign: 'center',
+  },
+
+  title: {
+    fontWeight: 800,
+    fontSize: rem(40),
+    letterSpacing: rem(-1),
+    color: 'pink',
+    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+
+    [theme.fn.smallerThan('xs')]: {
+      fontSize: rem(28),
+      textAlign: 'left',
+    },
+  },
 }));
 
 export default function ThanksPage() {
@@ -23,27 +47,20 @@ export default function ThanksPage() {
   return (
     <div className={classes.wrapper}>
       <Overlay color="#000" opacity={0.65} zIndex={1} />
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100vh',
-        }}
-      >
-        <div
-          style={{
-            fontSize: '3em',
-            fontWeight: 'bold',
-            textAlign: 'center',
-            marginBottom: '20px',
-            color: '#6699FF',
-          }}
-        >
-          注文完了しました！
+
+      <div className={classes.inner}>
+        <Title className={classes.title}>注文完了しました！</Title>
+        <div>
+          <Image src="/thankYou.gif" alt="" width={498} height={422} />
         </div>
-        <Image src="/thanks.gif" alt="" width={500} height={500} />
+        <Button
+          radius="xl"
+          size="sm"
+          style={{ marginTop: '50px', backgroundColor: 'pink', color: 'gray' }}
+          onClick={() => handler('/')}
+        >
+          <div style={{ margin: '10px' }}>Topページに戻る</div>
+        </Button>
       </div>
     </div>
   );
