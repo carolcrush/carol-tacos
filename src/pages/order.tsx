@@ -70,6 +70,10 @@ export default function Order() {
 
   const counter = (item: string, price: number, count: number) => {
     setOrderList((pre) => {
+      if (count === 0 && pre !== undefined) {
+        delete pre[item];
+        return { ...pre };
+      }
       return { ...pre, [item]: { price, count } };
     });
   };

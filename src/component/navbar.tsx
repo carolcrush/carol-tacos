@@ -85,9 +85,6 @@ export function NavbarSimple({
     </a>
   ));
 
-  // useEffect(() => {
-  //   setTop(230 - document.documentElement.scrollTop);
-  // }, []);
   useEffect(() => {
     const handleScroll = () => {
       const newTop = 230 - document.documentElement.scrollTop;
