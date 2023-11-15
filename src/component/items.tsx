@@ -8,7 +8,7 @@ import {
   rem,
   Select,
 } from '@mantine/core';
-import { RefObject, useEffect, useState } from 'react';
+import { RefObject, useState } from 'react';
 import { Item } from '../types/items';
 
 const useStyles = createStyles((theme) => ({
@@ -56,6 +56,7 @@ type CardItemProps = {
   counter: (item: string, price: number, count: number) => void;
   orderList: number;
 };
+
 function CardItem({ item, counter, orderList }: CardItemProps) {
   const { classes } = useStyles();
   const [isHovered, setIsHovered] = useState(false);
