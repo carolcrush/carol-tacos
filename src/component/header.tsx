@@ -18,11 +18,6 @@ const useStyles = createStyles((theme) => ({
     backgroundImage: 'url(/tacos-bg.jpeg)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-
-    [theme.fn.smallerThan('xs')]: {
-      paddingTop: rem(80),
-      paddingBottom: rem(50),
-    },
   },
 
   inner: {
@@ -40,32 +35,17 @@ const useStyles = createStyles((theme) => ({
     marginBottom: theme.spacing.xs,
     textAlign: 'center',
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-
-    [theme.fn.smallerThan('xs')]: {
-      fontSize: rem(28),
-      textAlign: 'left',
-    },
   },
 
   description: {
     margin: rem(20),
     color: theme.colors.gray[0],
     textAlign: 'center',
-
-    [theme.fn.smallerThan('xs')]: {
-      fontSize: theme.fontSizes.md,
-      textAlign: 'left',
-    },
   },
 
   button: {
     margin: rem(40),
     textAlign: 'center',
-
-    [theme.fn.smallerThan('xs')]: {
-      fontSize: theme.fontSizes.md,
-      textAlign: 'left',
-    },
   },
 }));
 
