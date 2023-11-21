@@ -15,11 +15,6 @@ const useStyles = createStyles((theme) => ({
     backgroundImage: 'url(/tacos-bg.jpeg)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-
-    [theme.fn.smallerThan('xs')]: {
-      paddingTop: rem(80),
-      paddingBottom: rem(50),
-    },
   },
 
   inner: {
@@ -37,7 +32,13 @@ const useStyles = createStyles((theme) => ({
 
     [theme.fn.smallerThan('xs')]: {
       fontSize: rem(28),
-      textAlign: 'left',
+    },
+  },
+
+  image: {
+    [theme.fn.smallerThan('xs')]: {
+      width: 249,
+      height: 211,
     },
   },
 }));
@@ -51,7 +52,13 @@ export default function ThanksPage() {
       <div className={classes.inner}>
         <Title className={classes.title}>注文完了しました！</Title>
         <div>
-          <Image src="/thankYou.gif" alt="" width={498} height={422} />
+          <Image
+            className={classes.image}
+            src="/thankYou.gif"
+            alt=""
+            width={498}
+            height={422}
+          />
         </div>
         <Button
           radius="xl"
