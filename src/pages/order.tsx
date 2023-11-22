@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { useRef, useState, useEffect } from 'react';
 import { Image, Button } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { NavbarSimple } from '@/component/navbar';
 import { Items } from '@/component/items';
 import { Item, CheckItem } from '../types/items';
@@ -22,6 +23,8 @@ export const getJSON = async (): Promise<Item[]> => {
 export default function Order() {
   const [checkList, setCheckList] =
     useLocalStorageState<CheckItem[]>('checkList');
+
+  const isMobile = useMediaQuery(`(max-width: 576px)`);
 
   const tacosRef = useRef<HTMLDivElement>(null);
   const saladRef = useRef<HTMLDivElement>(null);
@@ -109,7 +112,7 @@ export default function Order() {
         src="/tacos-bg.jpeg"
         alt=""
         width={'100%'}
-        height={500}
+        height={isMobile ? 400 : 500}
         style={{
           marginTop: '-150px',
           marginBottom: '-100px',
