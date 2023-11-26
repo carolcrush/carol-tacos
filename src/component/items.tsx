@@ -37,6 +37,9 @@ const useStyles = createStyles((theme) => ({
     marginBottom: -20,
     fontSize: 30,
     fontWeight: 600,
+    [theme.fn.smallerThan('xs')]: {
+      fontSize: 25,
+    },
   },
 
   title: {
