@@ -1,15 +1,131 @@
 import Head from 'next/head';
-import { Container, Select, Button, Text, Divider } from '@mantine/core';
+import { Container, Select, Button, Divider, Grid } from '@mantine/core';
 import { CheckItem } from '../types/items';
+import { useMediaQuery } from '@mantine/hooks';
 import Router from 'next/router';
 import Image from 'next/image';
 import useLocalStorageState from 'use-local-storage-state';
 import styles from '../styles/check.module.css';
 
+type CheckItemProps = {
+  checkItem: CheckItem;
+  index: number;
+  handleDelete: (index: number) => void;
+  onChange: (index: number, count: string) => void;
+};
+
+const CheckListItem = ({
+  checkItem,
+  index,
+  handleDelete,
+  onChange,
+}: CheckItemProps) => {
+  const isMobile = useMediaQuery(`(max-width: 576px)`);
+  return (
+    <Grid
+      columns={7}
+      style={{
+        width: isMobile ? '100%' : '50%',
+        textAlign: 'center',
+        margin: 'auto',
+        marginTop: '20px',
+        alignItems: 'center',
+      }}
+    >
+      <Grid.Col span={2}>
+        <Image
+          src={checkItem.image}
+          alt="title image"
+          width={isMobile ? 93 : 140}
+          height={isMobile ? 63 : 95}
+        />
+      </Grid.Col>
+      <Grid.Col
+        span={2}
+        style={{
+          whiteSpace: 'pre',
+        }}
+      >
+        {checkItem.title}
+      </Grid.Col>
+      <Grid.Col span={1}>¥{checkItem.price}</Grid.Col>
+      <Grid.Col span={1}>
+        <Select
+          style={{ width: '60px', margin: 'auto' }}
+          defaultValue={String(checkItem.count)}
+          data={data}
+          placeholder="0"
+          maxDropdownHeight={100}
+          size="xs"
+          onChange={(count) => onChange(index, count ?? '')}
+        />
+      </Grid.Col>
+      <Grid.Col span={1}>
+        <a onClick={() => handleDelete(index)} className={styles.deleteLink}>
+          削除
+        </a>
+      </Grid.Col>
+    </Grid>
+  );
+};
+
+const CheckListItemMobile = ({
+  checkItem,
+  index,
+  handleDelete,
+  onChange,
+}: CheckItemProps) => {
+  return (
+    <Grid
+      columns={4}
+      style={{
+        width: '100%',
+        textAlign: 'center',
+        margin: 'auto',
+        marginTop: '20px',
+        alignItems: 'center',
+      }}
+    >
+      <Grid.Col span={1}>
+        <Image src={checkItem.image} alt="title image" width={93} height={63} />
+      </Grid.Col>
+      <Grid.Col
+        span={2}
+        style={{
+          whiteSpace: 'pre',
+        }}
+      >
+        {checkItem.title}
+        <div>¥{checkItem.price}</div>
+      </Grid.Col>
+      <Grid.Col span={1}>
+        <Select
+          style={{ width: '60px', margin: 'auto', marginBottom: '10px' }}
+          defaultValue={String(checkItem.count)}
+          data={data}
+          placeholder="0"
+          maxDropdownHeight={100}
+          size="xs"
+          onChange={(count) => onChange(index, count ?? '')}
+        />
+        <a
+          onClick={() => handleDelete(index)}
+          className={styles.deleteLink}
+          style={{ fontSize: '12px' }}
+        >
+          削除
+        </a>
+      </Grid.Col>
+    </Grid>
+  );
+};
+
 const createMessage = (checkList: CheckItem[]) => {
   return `
   新しい注文がありました：
-${checkList.map((order) => `${order.title}: ${order.count}`).join('\n')}
+${checkList
+  .map((order) => `${order.title.replaceAll('\n', ' ')}: ${order.count}`)
+  .join('\n')}
   `;
 };
 const handler = (path: string) => {
@@ -23,6 +139,8 @@ const data = Array(10)
 function CheckList() {
   const [checkList, setCheckList] =
     useLocalStorageState<CheckItem[]>('checkList');
+
+  const isMobile = useMediaQuery(`(max-width: 768px)`);
 
   const handleDelete = (index: number) => {
     const updatedCheckList = [...(checkList ?? [])];
@@ -62,10 +180,11 @@ function CheckList() {
       <Image
         src="/tacos-bg.jpeg"
         alt=""
-        width={1500}
-        height={500}
+        width={isMobile ? 576 : 1500}
+        height={isMobile ? 400 : 500}
         style={{
           minWidth: '100%',
+          maxWidth: '100%',
           marginTop: '-150px',
           marginBottom: '-100px',
           objectFit: 'cover',
@@ -73,7 +192,13 @@ function CheckList() {
           clipPath: 'inset(30% 0 25% 0)',
         }}
       />
-      <Container style={{ width: '100%', height: '100px', marginTop: '15px' }}>
+      <Container
+        style={{
+          width: '100%',
+          height: '100px',
+          marginTop: '15px',
+        }}
+      >
         <div
           style={{
             display: 'flex',
@@ -96,93 +221,76 @@ function CheckList() {
           </Button>
         </div>
       </Container>
-      <div
+      {checkList
+        ?.slice()
+        .reverse()
+        .map((row, index) =>
+          isMobile ? (
+            <CheckListItemMobile
+              key={index}
+              checkItem={row}
+              index={checkList.length - index - 1}
+              handleDelete={handleDelete}
+              onChange={onChange}
+            />
+          ) : (
+            <CheckListItem
+              key={index}
+              checkItem={row}
+              index={checkList.length - index - 1}
+              handleDelete={handleDelete}
+              onChange={onChange}
+            />
+          ),
+        )}
+      <Divider
+        my="sm"
+        style={{ width: isMobile ? '100%' : '50%', margin: 'auto' }}
+      />
+      <Grid
+        columns={isMobile ? 4 : 7}
         style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <table style={{ borderCollapse: 'collapse' }} cellSpacing={100}>
-          <tbody>
-            {checkList
-              ?.slice()
-              .reverse()
-              .map((row, index) => (
-                <div key={index} style={{ padding: '20px' }}>
-                  <tr style={{ position: 'relative', textAlign: 'center' }}>
-                    <td>
-                      <Image
-                        src={row.image}
-                        alt="title image"
-                        width={140}
-                        height={95}
-                      />
-                    </td>
-                    <td style={{ width: '250px', padding: '20px' }}>
-                      <Text>{row.title}</Text>
-                    </td>
-                    <td style={{ width: '100px', padding: '20px' }}>
-                      ¥{row.price}
-                    </td>
-                    <td style={{ width: '150px', padding: '20px' }}>
-                      <Select
-                        style={{ width: '60px' }}
-                        defaultValue={String(row.count)}
-                        data={data}
-                        placeholder="0"
-                        maxDropdownHeight={100}
-                        size="xs"
-                        onChange={(count) => onChange(index, count)}
-                      />
-                    </td>
-                    <td>
-                      <a
-                        onClick={() => handleDelete(index)}
-                        className={styles.deleteLink}
-                      >
-                        削除
-                      </a>
-                    </td>
-                  </tr>
-                </div>
-              ))}
-          </tbody>
-        </table>
-      </div>
-      <Divider my="sm" style={{ width: '50%', margin: 'auto' }} />
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          width: '50%',
+          width: isMobile ? '100%' : '50%',
+          textAlign: 'center',
           margin: 'auto',
+          marginTop: '10px',
+          alignItems: 'center',
         }}
       >
-        <p style={{ textAlign: 'right', margin: '20px', flex: '1' }}>合計</p>
-        <p style={{ marginLeft: '50px' }}>¥{calculatedTotalPrice}</p>
-        <p style={{ marginLeft: '60px', marginRight: '50px' }}>
-          {calculatedTotalCount}点
-        </p>
-        <Button
-          radius="xl"
-          size="sm"
-          color="dark"
-          onClick={() => {
-            if (checkList && checkList.length > 0) {
-              handler('/thanks');
-              setCheckList([]);
-              fetch('/api/slack', {
-                method: 'POST',
-                body: createMessage(checkList),
-              });
-            }
+        <Grid.Col
+          span={isMobile ? 1 : 4}
+          style={{
+            textAlign: 'right',
+            paddingRight: '50px',
+            whiteSpace: 'nowrap',
           }}
-          disabled={checkList && checkList.length === 0}
         >
-          <div style={{ margin: '10px' }}>確定</div>
-        </Button>
-      </div>
+          合計 {isMobile && `: ${calculatedTotalCount}点`}
+        </Grid.Col>
+        <Grid.Col span={isMobile ? 2 : 1}>¥{calculatedTotalPrice}</Grid.Col>
+        {!isMobile && <Grid.Col span={1}>{calculatedTotalCount}点</Grid.Col>}
+
+        <Grid.Col span={1}>
+          <Button
+            radius="xl"
+            size="sm"
+            color="dark"
+            onClick={() => {
+              if (checkList && checkList.length > 0) {
+                handler('/thanks');
+                setCheckList([]);
+                fetch('/api/slack', {
+                  method: 'POST',
+                  body: createMessage(checkList),
+                });
+              }
+            }}
+            disabled={checkList && checkList.length === 0}
+          >
+            <div style={{ margin: '10px' }}>確定</div>
+          </Button>
+        </Grid.Col>
+      </Grid>
     </>
   );
 }

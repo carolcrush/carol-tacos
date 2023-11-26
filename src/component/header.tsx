@@ -17,7 +17,7 @@ const useStyles = createStyles((theme) => ({
     paddingBottom: rem(130),
     backgroundImage: 'url(/tacos-bg.jpeg)',
     backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundPosition: '30% center',
   },
 
   inner: {
