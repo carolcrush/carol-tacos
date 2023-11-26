@@ -227,7 +227,7 @@ function CheckList() {
         .map((row, index) =>
           isMobile ? (
             <CheckListItemMobile
-              key={index}
+              key={row.title}
               checkItem={row}
               index={checkList.length - index - 1}
               handleDelete={handleDelete}
@@ -235,7 +235,7 @@ function CheckList() {
             />
           ) : (
             <CheckListItem
-              key={index}
+              key={row.title}
               checkItem={row}
               index={checkList.length - index - 1}
               handleDelete={handleDelete}
