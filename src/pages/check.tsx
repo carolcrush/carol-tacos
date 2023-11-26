@@ -204,12 +204,14 @@ function CheckList() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: 35,
+            fontSize: isMobile ? 28 : 35,
             fontWeight: 600,
             textAlign: 'center',
           }}
         >
-          Carol Tacos 注文カート
+          Carol Tacos
+          <br />
+          注文カート
           <Button
             radius="xl"
             size="sm"
