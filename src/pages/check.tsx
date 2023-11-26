@@ -25,7 +25,7 @@ const CheckListItem = ({
     <Grid
       columns={7}
       style={{
-        width: isMobile ? '100%' : '50%',
+        width: isMobile ? '100%' : '60%',
         textAlign: 'center',
         margin: 'auto',
         marginTop: '20px',
@@ -245,12 +245,12 @@ function CheckList() {
         )}
       <Divider
         my="sm"
-        style={{ width: isMobile ? '100%' : '50%', margin: 'auto' }}
+        style={{ width: isMobile ? '100%' : '60%', margin: 'auto' }}
       />
       <Grid
         columns={isMobile ? 4 : 7}
         style={{
-          width: isMobile ? '100%' : '50%',
+          width: isMobile ? '100%' : '60%',
           textAlign: 'center',
           margin: 'auto',
           marginTop: '10px',
