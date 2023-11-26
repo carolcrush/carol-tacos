@@ -1,6 +1,6 @@
 import {
   createStyles,
-  SimpleGrid,
+  Grid,
   Card,
   Image,
   Text,
@@ -17,6 +17,9 @@ const useStyles = createStyles((theme) => ({
     position: 'sticky',
     bottom: '20px',
     right: '30px',
+    [theme.fn.smallerThan('xs')]: {
+      right: '0',
+    },
   },
 
   card: {
@@ -39,6 +42,8 @@ const useStyles = createStyles((theme) => ({
   title: {
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     fontWeight: 700,
+    whiteSpace: 'pre',
+    overflowX: 'auto',
   },
 
   price: {
@@ -111,12 +116,13 @@ function Cards({ itemList, counter, orderList }: CardsProps) {
   return (
     <>
       {itemList.map((item, index) => (
-        <CardItem
-          key={index}
-          item={item}
-          counter={counter}
-          orderList={(orderList && orderList[item.title]?.count) ?? 0}
-        />
+        <Grid.Col key={index} span={1}>
+          <CardItem
+            item={item}
+            counter={counter}
+            orderList={(orderList && orderList[item.title]?.count) ?? 0}
+          />
+        </Grid.Col>
       ))}
     </>
   );
@@ -146,44 +152,50 @@ export function Items({
 
   return (
     <Container py="xl">
-      <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-        <div ref={tacosRef} className={classes.category}>
-          タコス Tacos
-        </div>
-        <div />
+      <Grid columns={2} style={{ width: '100%' }}>
+        <Grid.Col span={2}>
+          <div ref={tacosRef} className={classes.category}>
+            タコス Tacos
+          </div>
+        </Grid.Col>
         <Cards
           itemList={itemList.filter((item) => item.category === 'tacos')}
           counter={counter}
           orderList={orderList}
         />
-        <div ref={saladRef} className={classes.category}>
-          サラダ Salad
-        </div>
-        <div />
+        <Grid.Col span={2}>
+          <div ref={saladRef} className={classes.category}>
+            サラダ Salad
+          </div>
+        </Grid.Col>
+
         <Cards
           itemList={itemList.filter((item) => item.category === 'salad')}
           counter={counter}
           orderList={orderList}
         />
-        <div ref={coffeeRef} className={classes.category}>
-          コーヒー Coffee
-        </div>
-        <div />
+        <Grid.Col span={2}>
+          <div ref={coffeeRef} className={classes.category}>
+            コーヒー Coffee
+          </div>
+        </Grid.Col>
+
         <Cards
           itemList={itemList.filter((item) => item.category === 'coffee')}
           counter={counter}
           orderList={orderList}
         />
-        <div ref={juiceRef} className={classes.category}>
-          ソフトドリンク Soft Drink
-        </div>
-        <div />
+        <Grid.Col span={2}>
+          <div ref={juiceRef} className={classes.category}>
+            ソフトドリンク Soft Drink
+          </div>
+        </Grid.Col>
         <Cards
           itemList={itemList.filter((item) => item.category === 'juice')}
           counter={counter}
           orderList={orderList}
         />
-      </SimpleGrid>
+      </Grid>
     </Container>
   );
 }

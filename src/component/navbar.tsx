@@ -10,6 +10,12 @@ const useStyles = createStyles((theme) => ({
     }`,
   },
 
+  navbar: {
+    [theme.fn.smallerThan('md')]: {
+      display: 'none',
+    },
+  },
+
   link: {
     ...theme.fn.focusStyles(),
     display: 'flex',
@@ -99,11 +105,17 @@ export function NavbarSimple({
   }, []);
 
   return (
-    <Navbar fixed={true} top={{ sm: top }} width={{ sm: 350 }} p="md">
+    <Navbar
+      className={classes.navbar}
+      fixed={true}
+      top={{ sm: top }}
+      width={{ sm: 250 }}
+      p="md"
+    >
       <Navbar.Section grow>
         <Group className={classes.header} position="apart">
-          <div style={{ fontSize: 35, fontWeight: 600 }}>
-            Carol Tacos <br />
+          <div style={{ fontSize: 35, fontWeight: 600 }}>Carol Tacos</div>
+          <div style={{ fontSize: 20, fontWeight: 600 }}>
             お茶の水女子大学店
           </div>
         </Group>
